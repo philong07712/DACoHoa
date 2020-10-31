@@ -1,14 +1,20 @@
 # include "Employee.h"
 # include <string.h>
 Employee::Employee() {
-	strcpy(ho, "Doan");
-	strcpy(ten, "Hung");
-	hesoLuong = 3.4;
-	strcpy(donvi, "IT");
-	strcpy(chucvu, "GD");
-	strcpy(maNv, "IT4");
-	gioitinh = true;
-	calculateSalary();
+}
+
+Employee::Employee(const Employee &e) {
+	strcpy(this->maNv, e.maNv);
+	strcpy(this->ho, e.ho);
+	strcpy(this->ten, e.ten);
+	strcpy(this->chucvu, e.chucvu);
+	strcpy(this->donvi, e.donvi);
+	this->hesoLuong = e.hesoLuong;
+	this->luong = e.luong;
+	this->phucap = e.phucap;
+	this->thuclinh = e.thuclinh;
+	this->ngaysinh = Date(e.ngaysinh);
+	this->gioitinh = e.gioitinh;
 }
 
 void Employee::display() {

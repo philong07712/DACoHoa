@@ -7,9 +7,11 @@ struct Employee {
     char chucvu[20];
     double hesoLuong, luong, phucap, thuclinh;
     Date ngaysinh;
-    bool gioitinh;
+    // 0 la nu, 1 la nam
+    int gioitinh;
     public:
     Employee();
+    Employee(const Employee&);
     void display();
     void calculateSalary();
     int calculateAge(int, int, int);

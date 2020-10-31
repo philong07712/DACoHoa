@@ -3,6 +3,8 @@ struct Date {
     int month;
     int year;
     Date();
+    Date(const Date&);
     Date(int, int, int);
     void display();
+    int compareTo(const Date) const;
 };
