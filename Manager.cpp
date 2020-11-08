@@ -3,19 +3,27 @@
 Manager::Manager() {
 	size = 0;
 }
-	
-void Manager::addEmployee(Employee e, int position) {
-	list[position] = e;
-}
 
 void Manager::addEmployee(Employee e) {
-	list[this->size] = e;
+	list[size] = e;
+	size++;
+}
+
+void Manager::addEmployee(Employee e, int n) {
+	// Kiem tra neu n co dat yeu cau
+	if (n < 0 || n > size) {
+		return;
+	}
+	for (int i = size; i > n; i--) {
+		list[i] = list[i - 1];
+	}
+	list[n] = e;
 	size++;
 }
 
 void Manager::display(Employee *listOfEmployee, int n) {
 	int i;
-	printf("Ma\t|Ho\t|Ten\t|Don vi\t|Chuc vu\t|he so luong\t|phu cap\t|thuc linh\t|ngay sinh\t|GT\n");
+	printf("MA\t|HO\t|TEN\t|DON VI\t|CHUC VU\t|HE SO LUONG\t|PHU CAP\t|THUC LINH\t|NGAY SINH\t|GT\n");
 	for (i = 0; i < n; i++) {
 		printf("%s\t|%s\t|%s\t|%s\t|%s\t\t|%.2f\t\t|%.1f\t\t|%.1f\t\t|", listOfEmployee[i].maNv,
 			listOfEmployee[i].ho, listOfEmployee[i].ten, 

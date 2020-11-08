@@ -1,12 +1,91 @@
 # include "Manager.cpp"
 # include <string.h>
 # include <stdio.h>
+# include <conio.h>
 
 Manager manager = Manager();
 
+void themNhanVien();
+void xoaNhanVien();
+void deleteRetiredEmployee();
+void thongke();
+int compareByMaNv(const Employee *e1, const Employee *e2);
+int compareByHo(const Employee *e1, const Employee *e2);
+int compareByTen(const Employee *e1, const Employee *e2);
+int compareByDonVi(const Employee *e1, const Employee *e2);
+int compareByChucVu(const Employee *e1, const Employee *e2);
+int compareByHeSoLuong(const Employee *e1, const Employee *e2);
+int compareByLuong(const Employee *e1, const Employee *e2);
+int compareByPhuCap(const Employee *e1, const Employee *e2);
+int compareByThucLinh(const Employee *e1, const Employee *e2);
+int compareByNgaySinh(const Employee *e1, const Employee *e2);
+int compareByGioiTinh(const Employee *e1, const Employee *e2);
+void sapxep();
+void timkiem();
+
+int main() {
+	int t;
+	manager.loadData();
+	do {
+		printf("----------------------------------------\n");
+  		printf("PHAN MEM QUAN LY NHAN VIEN\n");
+		printf("BAN VUI LONG CHON CHUC NANG DE SU DUNG\n");
+		printf("0. THOAT CHUONG TRINH\n");
+		printf("1. THEM NHAN VIEN\n");
+		printf("2. XOA NHAN VIEN\n");
+		printf("3. XOA NHAN VIEN THEO DO TUOI\n");
+		printf("4. IN RA DANH SACH NHAN VIEN\n");
+		printf("5. IN RA BANG THONG KE THEO DON VI\n");
+		printf("6. SAP XEP NHAN VIEN THEO MOT TIEU CHI\n");
+		printf("7. TIM KIEM THEO NHIEU TIEU CHI\n");
+		printf("----------------------------------------\n");
+		printf("Nhap lua chon cua ban: ");
+		scanf("%d", &t);
+		
+		switch (t) {
+			case 0: 
+				printf("Cam on ban da dung chuong trinh\n");
+				break;
+			case 1:
+				themNhanVien();
+				manager.saveData();
+				break;
+			case 2:
+				xoaNhanVien();
+				manager.saveData();
+				break;
+			case 3:
+				deleteRetiredEmployee();
+				manager.saveData();
+				break;	
+			case 4:
+				printf("----------------------------------------\n");
+				manager.display(manager.list, manager.size);
+				break; 	
+			case 5:
+				thongke();
+				break;
+			case 6:
+				sapxep();
+				manager.display(manager.list, manager.size);
+				manager.saveData();
+				break;
+			case 7:
+				timkiem();
+				break;			
+			default:
+				printf("BAN VUI LONG NHAP LAI!!!\n"); 	
+		}
+	} while (t != 0);
+	return 0;
+}
+
 void themNhanVien() {
+	int t;
 	Employee e = Employee();
 	printf("----------------------------------------\n");
+	printf("Nhap vi tri can chen(1-%d): ", manager.size + 1);
+	scanf("%d", &t);
 	printf("Nhap ma nhan vien: ");
 	scanf("%s", &e.maNv);
 	printf("Nhap ho nhan vien: ");
@@ -35,11 +114,20 @@ void themNhanVien() {
 	printf("Nhap he so luong: ");
 	scanf("%lf", &e.hesoLuong);
 	e.calculateSalary();
-	manager.addEmployee(e);
+	// giam di 1 vi mang bat dau tu gia tri 0
+	manager.addEmployee(e, t - 1);
+}
+
+void xoaNhanVien() {
+	int pos;
 	printf("----------------------------------------\n");
+	printf("Nhap vi tri can xoa(1-%d): ", manager.size);
+	scanf("%d", &pos);
+	manager.deleteEmployee(pos - 1);
 }
 
 void deleteRetiredEmployee() {
+	printf("----------------------------------------\n");
 	int age, d, m, y;
 	printf("Nhap tuoi nghi huu: ");
 	scanf("%d", &age);
@@ -94,7 +182,8 @@ void thongke() {
 	}
 	
 	// in ra
-	printf("Don vi\tSo nu\tSo nam\tTong thuc linh\n");
+	printf("----------------------------------------\n");
+	printf("DON VI\tSO NU\tSO NAM\tTONG THUC LINH\n");
 	for (i = 0; i < listSize; i++) {
 		printf("%s\t%d\t%d\t%.0f\n", objList[i].donvi, objList[i].numFemale, objList[i].numMale, objList[i].totalSalary);
 	}
@@ -210,13 +299,16 @@ void sapxep() {
 		printf("9. THUC LINH\n");
 		printf("10. NGAY SINH\n");
 		printf("11. GIOI TINH\n");
+		printf("----------------------------------------\n");
 		printf("Nhap lua chon cua ban: ");
 		scanf("%d", &t);
+		printf("----------------------------------------\n");
 		printf("NHAP CHIEU SAP XEP\n");
 		printf("0. GIAM DAN\n1.TANG DAN\n");
+		printf("----------------------------------------\n");
 		printf("Nhap lua chon cua ban: ");
 		scanf("%d", &isAcsending);
-
+		printf("----------------------------------------\n");
 		switch(t) {
 			case 1:
 				manager.sort(compareByMaNv, isAcsending);
@@ -276,6 +368,7 @@ void timkiem() {
 	int d, m, y;
 	int t;
 	do {
+		printf("----------------------------------------\n");
 		printf("NHAP TIEU CHI TIM KIEM: \n");
 		printf("0. HOAN THANH\n");
 		printf("1. MA NHAN VIEN\n");
@@ -289,8 +382,10 @@ void timkiem() {
 		printf("9. THUC LINH\n");
 		printf("10. NGAY SINH\n");
 		printf("11. GIOI TINH\n");
+		printf("----------------------------------------\n");
 		printf("Nhap lua chon cua ban: ");
 		scanf("%d", &t);
+		printf("----------------------------------------\n");
 		switch (t) {
 			case 0:
 				break;
@@ -349,63 +444,7 @@ void timkiem() {
 				printf("LUA CHON KHONG HOP LE\n");
 		}
 	} while (t != 0);
+	printf("----------------------------------------\n");
 	manager.search(e);
-}
-
-int main() {
-	int t;
-	manager.loadData();
-	do {
-		printf("----------------------------------------\n");
-		printf("PHAN MEM QUAN LY NHAN VIEN\n");
-		printf("BAN VUI LONG CHON CHUC NANG DE SU DUNG\n");
-		printf("0. THOAT CHUONG TRINH\n");
-		printf("1. THEM NHAN VIEN\n");
-		printf("2. XOA NHAN VIEN\n");
-		printf("3. XOA NHAN VIEN THEO DO TUOI\n");
-		printf("4. IN RA DANH SACH NHAN VIEN\n");
-		printf("5. IN RA BANG THONG KE THEO DON VI\n");
-		printf("6. SAP XEP NHAN VIEN THEO MOT TIEU CHI\n");
-		printf("7. TIM KIEM THEO NHIEU TIEU CHI\n");
-		printf("----------------------------------------\n");
-		printf("Nhap lua chon cua ban: ");
-		scanf("%d", &t);
-		
-		switch (t) {
-			case 1:
-				themNhanVien();
-				manager.saveData();
-				break;
-			case 2:
-				int pos;
-				printf("Nhap vi tri can xoa: ");
-				scanf("%d", &pos);
-				manager.deleteEmployee(pos - 1);
-				manager.saveData();
-				break;
-			case 3:
-				deleteRetiredEmployee();
-				manager.saveData();
-				break;	
-			case 4:
-				printf("----------------------------------------\n");
-				manager.display(manager.list, manager.size);
-				break; 	
-			case 5:
-				thongke();
-				break;
-			case 6:
-				sapxep();
-				manager.display(manager.list, manager.size);
-				manager.saveData();
-				break;
-			case 7:
-				timkiem();
-				break;			
-			default:
-				printf("BAN VUI LONG NHAP LAI!!!\n"); 	
-		}
-	} while (t != 0);
-	return 0;
 }
 
