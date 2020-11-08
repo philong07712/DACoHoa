@@ -84,35 +84,48 @@ void themNhanVien() {
 	int t;
 	Employee e = Employee();
 	printf("----------------------------------------\n");
-	printf("Nhap vi tri can chen(1-%d): ", manager.size + 1);
-	scanf("%d", &t);
+	do {
+		printf("Nhap vi tri can chen(1-%d): ", manager.size + 1);
+		scanf("%d", &t);
+	} while (t < 1 || t > manager.size + 1);
 	printf("Nhap ma nhan vien: ");
 	scanf("%s", &e.maNv);
 	printf("Nhap ho nhan vien: ");
 	scanf("%s", &e.ho);
 	printf("Nhap ten nhan vien: ");
 	scanf("%s", &e.ten);
+	// nhap gioi tinh va kiem tra tinh hop le cua gioi tinh
+	do {
 	printf("Nhap gioi tinh: \n");
 	printf("0. Nu\n");
 	printf("1. Nam\n");
 	scanf("%d", &e.gioitinh);
+	} while (e.gioitinh != 0 && e.gioitinh != 1);
 	// nhap ngay thang nam sinh
 	int d, m, y;
-	printf("Nhap ngay sinh: \n");
-	printf("Ngay: ");
-	scanf("%d", &d);
-	printf("Thang: ");
-	scanf("%d", &m);
-	printf("Nam: ");
-	scanf("%d", &y);
-	e.ngaysinh = Date(d, m, y);
+	Date date;
+	// kiem tra tinh hop le cua ngay thang nam
+	do {
+		printf("Nhap ngay sinh: \n");
+		printf("Ngay: ");
+		scanf("%d", &d);
+		printf("Thang: ");
+		scanf("%d", &m);
+		printf("Nam: ");
+		scanf("%d", &y);
+		date = Date(d, m, y);
+	} while (!date.isValid());
+	e.ngaysinh = date;
 	// Nhap don vi
 	printf("Nhap don vi: ");
 	scanf("%s", &e.donvi);
 	printf("Nhap chuc vu: ");
 	scanf("%s", &e.chucvu);
-	printf("Nhap he so luong: ");
-	scanf("%lf", &e.hesoLuong);
+	do {
+		printf("Nhap he so luong: ");
+		scanf("%lf", &e.hesoLuong);
+	} while (e.hesoLuong < 0);
+
 	e.calculateSalary();
 	// giam di 1 vi mang bat dau tu gia tri 0
 	manager.addEmployee(e, t - 1);
@@ -121,22 +134,29 @@ void themNhanVien() {
 void xoaNhanVien() {
 	int pos;
 	printf("----------------------------------------\n");
-	printf("Nhap vi tri can xoa(1-%d): ", manager.size);
-	scanf("%d", &pos);
+	do {
+		printf("Nhap vi tri can xoa(1-%d): ", manager.size);
+		scanf("%d", &pos);	
+	} while (pos < 1 || pos > manager.size);
+
 	manager.deleteEmployee(pos - 1);
 }
 
 void deleteRetiredEmployee() {
 	printf("----------------------------------------\n");
 	int age, d, m, y;
+	Date date;
 	printf("Nhap tuoi nghi huu: ");
 	scanf("%d", &age);
-	printf("Nhap ngay hien tai: ");
-	scanf("%d", &d);
-	printf("Nhap thang hien tai: ");
-	scanf("%d", &m);
-	printf("Nhap nam hien tai: ");
-	scanf("%d", &y);
+	do {
+		printf("Nhap ngay hien tai: ");
+		scanf("%d", &d);
+		printf("Nhap thang hien tai: ");
+		scanf("%d", &m);
+		printf("Nhap nam hien tai: ");
+		scanf("%d", &y);
+		date = Date(d, m, y);
+	} while (!date.isValid());
 	manager.deleteRetireEmployee(age, d, m, y);
 }
 
@@ -366,7 +386,8 @@ void timkiem() {
 	e.gioitinh = -1;
 	
 	int d, m, y;
-	int t;
+	int t, gt;
+	Date date;
 	do {
 		printf("----------------------------------------\n");
 		printf("NHAP TIEU CHI TIM KIEM: \n");
@@ -432,19 +453,31 @@ void timkiem() {
 				scanf("%d", &m);
 				printf("NAM: ");
 				scanf("%d", &y);
-				e.ngaysinh = Date(d, m, y);
+				date = Date(d, m, y);
+				if (!date.isValid()){
+					printf("NGAY NHAP KHONG HOP LE\n");
+				}
+				else {
+					e.ngaysinh = date;
+				}
 				break;	
 			case 11:
 				printf("NHAP GIOI TINH: \n");
 				printf("0. NU\n");
 				printf("1. NAM\n");
-				scanf("%d", &e.gioitinh);
+				printf("Nhap lua chon cua ban: ");
+				scanf("%d", &gt);
+				if (gt != 0 && gt != 1) {
+					printf("GIOI TINH KHONG HOP LE\n");
+				}
+				else {
+					e.gioitinh = gt;
+				}
 				break;																						
 			default:
 				printf("LUA CHON KHONG HOP LE\n");
 		}
 	} while (t != 0);
-	printf("----------------------------------------\n");
 	manager.search(e);
 }
 

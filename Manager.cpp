@@ -107,6 +107,10 @@ void Manager::sort(int(*compare)(const Employee* e1, const Employee* e2), bool i
 	int i, j;
 	for (i = 0; i < size; i++) {
 		for (j = 0; j < size - 1; j++) {
+			// so sanh 2 gia tri can kiem sap xep
+			// 1 neu e1 > e2
+			// 0 neu e1 = e2
+			// -1 neu e1 < e2
 			int result = compare(&list[j], &list[j + 1]);
 			// neu muon sap xep theo chieu giam dan, ta dao nguoc gia tri cua result
 			if (!isAcsending) {
