@@ -14,6 +14,7 @@ struct Manager {
     void sort(int (*)(const Employee*, const Employee*), bool);
     int search(Employee);
     int search(Employee, int (*)(const Employee*, const Employee*), bool);
+    int searchThenDelete(Employee);
     bool fequal(double, double);
 };
 

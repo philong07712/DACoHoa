@@ -21,7 +21,7 @@ int compareByNgaySinh(const Employee *e1, const Employee *e2);
 int compareByGioiTinh(const Employee *e1, const Employee *e2);
 void sapxep(Employee e, bool isAdded);
 void timkiem();
-
+void xoaTheoTieuChi();
 int main() {
 	int t, k;
 	Employee e;
@@ -39,6 +39,7 @@ int main() {
 		printf("6. SAP XEP NHAN VIEN THEO MOT TIEU CHI\n");
 		printf("7. TIM KIEM THEO NHIEU TIEU CHI\n");
 		printf("8. CHEN NHAN VIEN THEO THU TU SAP XEP\n");
+		printf("9. XOA NHAN VIEN THEO NHIEU TIEU CHI\n");
 		printf("----------------------------------------\n");
 		printf("Nhap lua chon cua ban: ");
 		scanf("%d", &t);
@@ -84,7 +85,11 @@ int main() {
 				e = themNhanVien();
 				sapxep(e, true);
 				manager.saveData();
-				break;				
+				break;			
+			case 9:
+				xoaTheoTieuChi();
+				manager.saveData();
+				break;		
 			default:
 				printf("BAN VUI LONG NHAP LAI!!!\n"); 	
 		}
@@ -149,6 +154,116 @@ void xoaNhanVien() {
 	} while (pos < 1 || pos > manager.size);
 
 	manager.deleteEmployee(pos - 1);
+}
+
+void xoaTheoTieuChi() {
+		Employee e = Employee();
+	strcpy(e.maNv, "empty");
+	strcpy(e.ho, "empty");
+	strcpy(e.ten, "empty");
+	strcpy(e.donvi, "empty");
+	strcpy(e.chucvu, "empty");
+	e.hesoLuong = -1;
+	e.luong = -1;
+	e.phucap = -1;
+	e.thuclinh = -1;
+	e.ngaysinh = Date(0, 0, 0);
+	e.gioitinh = -1;
+	
+	int d, m, y;
+	int t, gt;
+	Date date;
+	do {
+		printf("----------------------------------------\n");
+		printf("NHAP TIEU CHI XOA: \n");
+		printf("0. HOAN THANH\n");
+		printf("1. MA NHAN VIEN\n");
+		printf("2. HO\n");
+		printf("3. TEN\n");
+		printf("4. DON VI\n");
+		printf("5. CHUC VU\n");
+		printf("6. HE SO LUONG\n");
+		printf("7. LUONG\n");
+		printf("8. PHU CAP\n");
+		printf("9. THUC LINH\n");
+		printf("10. NGAY SINH\n");
+		printf("11. GIOI TINH\n");
+		printf("----------------------------------------\n");
+		printf("Nhap lua chon cua ban: ");
+		scanf("%d", &t);
+		printf("----------------------------------------\n");
+		switch (t) {
+			case 0:
+				break;
+			case 1:
+				printf("NHAP MA NHAN VIEN: ");
+				scanf("%s", &e.maNv);
+				break;
+			case 2:
+				printf("NHAP HO: ");
+				scanf("%s", &e.ho);
+				break;	
+			case 3:
+				printf("NHAP TEN: ");
+				scanf("%s", &e.ten);
+				break;
+			case 4:
+				printf("NHAP DON VI: ");
+				scanf("%s", &e.donvi);
+				break;
+			case 5:
+				printf("NHAP CHUC VU: ");
+				scanf("%s", &e.chucvu);
+				break;	
+			case 6:
+				printf("NHAP HE SO LUONG: ");
+				scanf("%lf", &e.hesoLuong);
+				break;
+			case 7:
+				printf("NHAP LUONG: ");
+				scanf("%lf", &e.luong);
+				break;
+			case 8:
+				printf("NHAP PHU CAP: ");
+				scanf("%lf", &e.phucap);
+				break;	
+			case 9:
+				printf("NHAP THUC LINH: ");
+				scanf("%lf", &e.thuclinh);
+				break;
+			case 10:
+				printf("NGAY: ");
+				scanf("%d", &d);
+				printf("THANG: ");
+				scanf("%d", &m);
+				printf("NAM: ");
+				scanf("%d", &y);
+				date = Date(d, m, y);
+				if (!date.isValid()){
+					printf("NGAY NHAP KHONG HOP LE\n");
+				}
+				else {
+					e.ngaysinh = date;
+				}
+				break;	
+			case 11:
+				printf("NHAP GIOI TINH: \n");
+				printf("0. NU\n");
+				printf("1. NAM\n");
+				printf("Nhap lua chon cua ban: ");
+				scanf("%d", &gt);
+				if (gt != 0 && gt != 1) {
+					printf("GIOI TINH KHONG HOP LE\n");
+				}
+				else {
+					e.gioitinh = gt;
+				}
+				break;																						
+			default:
+				printf("LUA CHON KHONG HOP LE\n");
+		}
+	} while (t != 0);
+	manager.searchThenDelete(e);
 }
 
 void deleteRetiredEmployee() {

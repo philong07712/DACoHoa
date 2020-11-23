@@ -151,6 +151,28 @@ int Manager::search(Employee e) {
 	return n;
 } 
 
+int Manager::searchThenDelete(Employee e) {
+	int i;
+//	Employee tempList[size];
+	for (i = 0; i < size; i++) {
+		// kiem tra neu ma nhan vien khong rong va khong trung voi gia tri can tim thi bo qua nhan vien do
+		if (strcmp(e.maNv, "empty") != 0 && strcmp(list[i].maNv, e.maNv) != 0) continue;
+		if (strcmp(e.ho, "empty") != 0 && strcmp(list[i].ho, e.ho) != 0) continue;
+		if (strcmp(e.ten, "empty") != 0 && strcmp(list[i].ten, e.ten) != 0) continue;
+		if (strcmp(e.donvi, "empty") != 0 && strcmp(list[i].donvi, e.donvi) != 0) continue;
+		if (strcmp(e.chucvu, "empty") != 0 && strcmp(list[i].chucvu, e.chucvu) != 0) continue;
+		if (e.hesoLuong != -1 && !fequal(list[i].hesoLuong, e.hesoLuong)) continue;
+		if (e.luong != -1 && fequal(list[i].luong, e.luong)) continue;
+		if (e.phucap != -1 && fequal(list[i].phucap, e.phucap)) continue;
+		if (e.thuclinh != -1 && fequal(list[i].thuclinh, e.thuclinh)) continue;
+		if (e.ngaysinh.day != 0 && list[i].ngaysinh.compareTo(e.ngaysinh) != 0) continue;
+		if (e.gioitinh != -1 && list[i].gioitinh != e.gioitinh) continue;
+		deleteEmployee(i);
+		return 1;
+	}
+	return -1;
+} 
+
 int Manager::search(Employee e, int(*compare)(const Employee* e1, const Employee* e2), bool isAcsending) {
 	int i;
 	for (i = size - 1; i >= 0; i--) {
