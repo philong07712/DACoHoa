@@ -13,6 +13,7 @@ struct Manager {
     void deleteEmployee(int);
     void sort(int (*)(const Employee*, const Employee*), bool);
     int search(Employee);
+    int search(Employee, int (*)(const Employee*, const Employee*), bool);
     bool fequal(double, double);
 };
 

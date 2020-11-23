@@ -116,7 +116,7 @@ void Manager::sort(int(*compare)(const Employee* e1, const Employee* e2), bool i
 			if (!isAcsending) {
 				result = -result;
 			}
-			if (result < 0) {
+			if (result > 0) {
 				Employee temp = Employee(list[j + 1]);
 				list[j + 1] = list[j];
 				list[j] = temp;
@@ -150,6 +150,28 @@ int Manager::search(Employee e) {
 	display(tempList, n);
 	return n;
 } 
+
+int Manager::search(Employee e, int(*compare)(const Employee* e1, const Employee* e2), bool isAcsending) {
+	int i;
+	for (i = size - 1; i >= 0; i--) {
+		// tang dan only
+		int result = compare(&e, &list[i]);
+		if (result < 0) {
+			if (!isAcsending) {
+				break;
+			}
+		}
+		else if (result > 0) {
+			if (isAcsending) {
+				break;
+			}
+		}
+		list[i + 1] = list[i];
+	}
+	list[i + 1] = e;
+	size++;
+	return (i + 1);
+}
 
 bool Manager::fequal(double a, double b) {
 	return fabs(a-b) < 10E-6;

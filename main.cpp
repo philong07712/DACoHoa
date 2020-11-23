@@ -4,8 +4,7 @@
 # include <conio.h>
 
 Manager manager = Manager();
-
-void themNhanVien();
+Employee themNhanVien();
 void xoaNhanVien();
 void deleteRetiredEmployee();
 void thongke();
@@ -18,13 +17,14 @@ int compareByHeSoLuong(const Employee *e1, const Employee *e2);
 int compareByLuong(const Employee *e1, const Employee *e2);
 int compareByPhuCap(const Employee *e1, const Employee *e2);
 int compareByThucLinh(const Employee *e1, const Employee *e2);
-int compareByNgaySinh(const Employee *e1, const Employee *e2);
+int compareByNgaySinh(const Employee *e1, const Employee *e2);	
 int compareByGioiTinh(const Employee *e1, const Employee *e2);
-void sapxep();
+void sapxep(Employee e, bool isAdded);
 void timkiem();
 
 int main() {
-	int t;
+	int t, k;
+	Employee e;
 	manager.loadData();
 	do {
 		printf("----------------------------------------\n");
@@ -38,16 +38,23 @@ int main() {
 		printf("5. IN RA BANG THONG KE THEO DON VI\n");
 		printf("6. SAP XEP NHAN VIEN THEO MOT TIEU CHI\n");
 		printf("7. TIM KIEM THEO NHIEU TIEU CHI\n");
+		printf("8. CHEN NHAN VIEN THEO THU TU SAP XEP\n");
 		printf("----------------------------------------\n");
 		printf("Nhap lua chon cua ban: ");
 		scanf("%d", &t);
-		
+
 		switch (t) {
 			case 0: 
 				printf("Cam on ban da dung chuong trinh\n");
 				break;
 			case 1:
-				themNhanVien();
+				int k;
+				do {
+					printf("Nhap vi tri can chen(1-%d): ", manager.size + 1);
+					scanf("%d", &k);
+				} while (k < 1 || k > manager.size + 1);
+				e = themNhanVien();
+				manager.addEmployee(e, k - 1);
 				manager.saveData();
 				break;
 			case 2:
@@ -66,13 +73,18 @@ int main() {
 				thongke();
 				break;
 			case 6:
-				sapxep();
+				sapxep(Employee(), false);
 				manager.display(manager.list, manager.size);
 				manager.saveData();
 				break;
 			case 7:
 				timkiem();
-				break;			
+				break;
+			case 8:
+				e = themNhanVien();
+				sapxep(e, true);
+				manager.saveData();
+				break;				
 			default:
 				printf("BAN VUI LONG NHAP LAI!!!\n"); 	
 		}
@@ -80,14 +92,10 @@ int main() {
 	return 0;
 }
 
-void themNhanVien() {
-	int t;
+Employee themNhanVien() {
 	Employee e = Employee();
 	printf("----------------------------------------\n");
-	do {
-		printf("Nhap vi tri can chen(1-%d): ", manager.size + 1);
-		scanf("%d", &t);
-	} while (t < 1 || t > manager.size + 1);
+
 	printf("Nhap ma nhan vien: ");
 	scanf("%s", &e.maNv);
 	printf("Nhap ho nhan vien: ");
@@ -128,7 +136,8 @@ void themNhanVien() {
 
 	e.calculateSalary();
 	// giam di 1 vi mang bat dau tu gia tri 0
-	manager.addEmployee(e, t - 1);
+//	manager.addEmployee(e, t - 1);
+	return e;
 }
 
 void xoaNhanVien() {
@@ -211,44 +220,39 @@ void thongke() {
 
 int compareByMaNv(const Employee *e1, const Employee *e2) {
 	int result = strcmp(e1->maNv, e2->maNv);
-	result = -result;
 	return result;
 }
 
 int compareByHo(const Employee *e1, const Employee *e2) {
 	int result = strcmp(e1->ho, e2->ho);
-	result = -result;
 	return result;
 }
 
 int compareByTen(const Employee *e1, const Employee *e2) {
 	int result = strcmp(e1->ten, e2->ten);
 	// thay chieu so sanh cua ten
-	result = -result;
 	return result;
 }
 
 int compareByDonVi(const Employee *e1, const Employee *e2) {
 	int result = strcmp(e1->donvi, e2->donvi);
 	// thay chieu so sanh cua ten
-	result = -result;
 	return result;
 }
 
 int compareByChucVu(const Employee *e1, const Employee *e2) {
 	int result = strcmp(e1->chucvu, e2->chucvu);
 	// thay chieu so sanh cua ten
-	result = -result;
 	return result;
 }
 
 int compareByHeSoLuong(const Employee *e1, const Employee *e2) {
-	int result = e1->hesoLuong - e2->hesoLuong;
+	int result = e1->luong - e2->luong;
 	if (result < 0) {
-		return 1;
+		return -1;
 	}
 	else if (result > 0) {
-		return -1;
+		return 1;
 	}
 	return 0;
 }
@@ -256,10 +260,10 @@ int compareByHeSoLuong(const Employee *e1, const Employee *e2) {
 int compareByLuong(const Employee *e1, const Employee *e2) {
 	int result = e1->luong - e2->luong;
 	if (result < 0) {
-		return 1;
+		return -1;
 	}
 	else if (result > 0) {
-		return -1;
+		return 1;
 	}
 	return 0;
 }
@@ -267,10 +271,10 @@ int compareByLuong(const Employee *e1, const Employee *e2) {
 int compareByPhuCap(const Employee *e1, const Employee *e2) {
 	int result = e1->phucap - e2->phucap;
 	if (result < 0) {
-		return 1;
+		return -1;
 	}
 	else if (result > 0) {
-		return -1;
+		return 1;
 	}
 	return 0;
 }
@@ -278,10 +282,10 @@ int compareByPhuCap(const Employee *e1, const Employee *e2) {
 int compareByThucLinh(const Employee *e1, const Employee *e2) {
 	int result = e1->thuclinh - e2->thuclinh;
 	if (result < 0) {
-		return 1;
+		return -1;
 	}
 	else if (result > 0) {
-		return -1;
+		return 1;
 	}
 	return 0;
 }
@@ -303,8 +307,8 @@ int compareByGioiTinh(const Employee *e1, const Employee *e2) {
 }
 
 
-void sapxep() {
-	int t, isAcsending;
+void sapxep(Employee e, bool isAdded) {
+	int t, isAcsending, n;
 	do {
 		printf("----------------------------------------\n");
 		printf("LUA CHON TIEU CHI DE SAP XEP\n");
@@ -332,36 +336,69 @@ void sapxep() {
 		switch(t) {
 			case 1:
 				manager.sort(compareByMaNv, isAcsending);
+				if (isAdded) {
+					n = manager.search(e, compareByMaNv, isAcsending);
+				}
 				break;
 			case 2:
 				manager.sort(compareByHo, isAcsending);
+				if (isAdded) {
+					n = manager.search(e, compareByHo, isAcsending);
+				}
 				break;
 			case 3:
 				manager.sort(compareByTen, isAcsending);
+				if (isAdded) {
+					n = manager.search(e, compareByTen, isAcsending);
+				}
 				break;
 			case 4:
 				manager.sort(compareByDonVi, isAcsending);
+				if (isAdded) {
+					n = manager.search(e, compareByDonVi, isAcsending);
+				}
 				break;
 			case 5:
 				manager.sort(compareByChucVu, isAcsending);
+				if (isAdded) {
+					n = manager.search(e, compareByChucVu, isAcsending);
+				}
 				break;
 			case 6:
 				manager.sort(compareByHeSoLuong, isAcsending);
+				if (isAdded) {
+					n = manager.search(e, compareByHeSoLuong, isAcsending);
+				}
 				break;		
 			case 7:
 				manager.sort(compareByLuong, isAcsending);
+				if (isAdded) {
+					n = manager.search(e, compareByLuong, isAcsending);
+				}
 				break;
 			case 8:
 				manager.sort(compareByPhuCap, isAcsending);
+				if (isAdded) {
+					n = manager.search(e, compareByPhuCap, isAcsending);
+				}
 				break;
 			case 9:
 				manager.sort(compareByThucLinh, isAcsending);
+				if (isAdded) {
+					n = manager.search(e, compareByThucLinh, isAcsending);
+				}
 				break;		
 			case 10:
 				manager.sort(compareByNgaySinh, isAcsending);
+				if (isAdded) {
+					n = manager.search(e, compareByNgaySinh, isAcsending);
+				}
 				break;
 			case 11:
 				manager.sort(compareByGioiTinh, isAcsending);
+				if (isAdded) {
+					n = manager.search(e, compareByGioiTinh, isAcsending);
+				}
 				break;																					
 			default:	
 				t = -1;
