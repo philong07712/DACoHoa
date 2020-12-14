@@ -22,24 +22,46 @@ int compareByGioiTinh(const Employee *e1, const Employee *e2);
 void sapxep(Employee e, bool isAdded);
 void timkiem();
 void xoaTheoTieuChi();
+void center();
 int main() {
 	int t, k;
 	Employee e;
 	manager.loadData();
 	do {
-		printf("----------------------------------------\n");
-  		printf("PHAN MEM QUAN LY NHAN VIEN\n");
-		printf("BAN VUI LONG CHON CHUC NANG DE SU DUNG\n");
-		printf("0. THOAT CHUONG TRINH\n");
-		printf("1. THEM NHAN VIEN\n");
-		printf("2. XOA NHAN VIEN\n");
-		printf("3. XOA NHAN VIEN THEO DO TUOI\n");
-		printf("4. IN RA DANH SACH NHAN VIEN\n");
-		printf("5. IN RA BANG THONG KE THEO DON VI\n");
-		printf("6. SAP XEP NHAN VIEN THEO MOT TIEU CHI\n");
-		printf("7. TIM KIEM THEO NHIEU TIEU CHI\n");
-		printf("8. CHEN NHAN VIEN THEO THU TU SAP XEP\n");
-		printf("9. XOA NHAN VIEN THEO NHIEU TIEU CHI\n");
+		printf(" _______________________________________________________\n\n");
+  		printf("|\t\tPHAN MEM QUAN LY NHAN VIEN\t\t|\n");
+		printf("|\tBAN VUI LONG CHON CHUC NANG DE SU DUNG\t\t|\n");
+		printf("|_______________________________________________________|\n");
+		printf("|     |                                                 |\n");
+		printf("|  0  |THOAT CHUONG TRINH\t\t\t\t|\n");
+		printf("|_____|_________________________________________________|\n");
+		printf("|     |                                                 |\n");
+		printf("|  1  |THEM NHAN VIEN\t\t\t\t\t|\n");
+		printf("|_____|_________________________________________________|\n");	
+		printf("|     |                                                 |\n");
+		printf("|  2  |XOA NHAN VIEN\t\t\t\t\t|\n");
+		printf("|_____|_________________________________________________|\n");	
+		printf("|     |                                                 |\n");
+		printf("|  3  |XOA NHAN VIEN THEO DO TUOI\t\t\t|\n");
+		printf("|_____|_________________________________________________|\n");	
+		printf("|     |                                                 |\n");
+		printf("|  4  |IN RA DANH SACH NHAN VIEN\t\t\t|\n");
+		printf("|_____|_________________________________________________|\n");	
+		printf("|     |                                                 |\n");
+		printf("|  5  |IN RA BANG THONG KE THEO DON VI\t\t\t|\n");
+		printf("|_____|_________________________________________________|\n");	
+		printf("|     |                                                 |\n");
+		printf("|  6  |SAP XEP NHAN VIEN THEO MOT TIEU CHI\t\t|\n");
+		printf("|_____|_________________________________________________|\n");	
+		printf("|     |                                                 |\n");
+		printf("|  7  |TIM KIEM THEO NHIEU TIEU CHI\t\t\t|\n");
+		printf("|_____|_________________________________________________|\n");	
+		printf("|     |                                                 |\n");
+		printf("|  8  |CHEN NHAN VIEN THEO THU TU SAP XEP\t\t|\n");
+		printf("|_____|_________________________________________________|\n");	
+		printf("|     |                                                 |\n");
+		printf("|  9  |XOA NHAN VIEN THEO NHIEU TIEU CHI\t\t|\n");
+		printf("|_____|_________________________________________________|\n");											
 		printf("----------------------------------------\n");
 		printf("Nhap lua chon cua ban: ");
 		scanf("%d", &t);
@@ -631,5 +653,9 @@ void timkiem() {
 		}
 	} while (t != 0);
 	manager.search(e);
+}
+
+void center() {
+	printf("\t\t\t\t\t\t\t");		
 }
 
